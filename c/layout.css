@@ -52,6 +52,10 @@ header {
 	padding-bottom:1em;
 }
 
+h1, h2, h3, h4, h5, h6 {	
+	font-family: 'NewsGothicFSBook',Arial,sans-serif;
+}
+
 header h1{margin-left:.5em;}
 
 h2{color:#999;}
@@ -170,6 +174,16 @@ aside{
 	text-shadow: 1px 1px 0px #000;
 	filter: dropshadow(color=#c6e5e6, offx=1, offy=1);
 }
+
+#confirm {
+	margin:100px auto;
+	background:#fff;
+	padding:20px;
+}
+
+.errors{list-style:none;}
+.errors ul {list-style:none;}
+.errors li {color:red;display:block;}
 
 
 
