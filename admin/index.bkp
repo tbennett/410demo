@@ -14,31 +14,25 @@
 		}
 		else
 		{
-			$hasher = new PasswordHash(8, false);
-			$stored_hash = '*';
-			
 			$sql = "SELECT * FROM admins WHERE username='$user'";
 			$myData = $db->query($sql)
 			OR exit('DB query failed');
 			
 			$row = $myData->fetch_assoc();
-			$db->close();
-			
-			
-			$stored_hash = $row['password'];
-			$check = $hasher->CheckPassword($pass, $stored_hash);
-			if ($check && $row['username'] == $user) 
+			$db->close();	
+	
+			if($row['username'] == $user && $hashPass == $stored_hash)
 			{
-				session_start();
-				$_SESSION['login'] = 'y';
 				header('Location: update.php');
-			} 
-			else 
+			}
+			else
 			{
 				echo 'Sorry, login info incorrect';	
 			}
 		}
 	}
+
+
 
 ?>
 
