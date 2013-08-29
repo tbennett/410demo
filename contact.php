@@ -1,4 +1,35 @@
 <?php
+	require_once('includes/config.php');
+	
+	//query the database and store the results
+	//in the $myData variable
+	$sql = 'SELECT * FROM site_content';
+	$myData = $db->query($sql);
+	
+	while($row = $myData->fetch_assoc())
+	{
+		if($row['view'] == 'n')
+		{
+			continue;
+		}
+		
+		if($row['section_name'] == 'intro')
+		{
+			$intro = $row['content'];
+		}
+		
+		if($row['section_name'] == 'blurb')
+		{
+			$blurb = $row['content'];
+		}
+	}
+
+?>
+
+
+
+
+<?php
  // * IMPORTANT * Set your email information here
 define('DESTINATION_EMAIL','tbennett@aii.edu');
 define('MESSAGE_SUBJECT','form Demo');
@@ -6,7 +37,6 @@ define('REPLY_TO', 'tbennett@aii.edu');
 define('FROM_ADDRESS', 'tbennett@aii.edu');
 define('REDIRECT_URL', 'index.php');
 
-//require_once('includes/config.php');
 require_once('includes/validation.php');
 ?>
 
@@ -22,6 +52,7 @@ require_once('includes/validation.php');
   
   <section class="main">
   	<h2>Contact</h2>
+    <p><?php echo @$intro; ?></p>
 	
 	<div class="errors">
 	<ul>

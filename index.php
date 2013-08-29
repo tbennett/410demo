@@ -1,6 +1,5 @@
 <?php
 	require_once('includes/config.php');
-	
 	//query the database and store the results
 	//in the $myData variable
 	$sql = 'SELECT * FROM site_content';
@@ -12,7 +11,6 @@
 		{
 			continue;
 		}
-		
 		if($row['section_name'] == 'intro')
 		{
 			$intro = $row['content'];
@@ -23,7 +21,6 @@
 			$blurb = $row['content'];
 		}
 	}
-
 ?>
 
 

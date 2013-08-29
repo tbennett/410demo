@@ -1,8 +1,9 @@
 <?php 
 session_start();
 ob_start();
-$page = "admin";
 
+
+//checks if logging out and kills off our session.
 if(@$_REQUEST['log_out'])
 {
 	//delete session cookie
@@ -17,12 +18,23 @@ if(@$_REQUEST['log_out'])
 if($_SESSION['login'] == 'y')
 {
 	require_once('../includes/config.php');
+	
+		//catch user selection from dropdown and sanitize
+		$tmp = $_GET['p'];
+		if($tmp === 'home' || $tmp === 'about' || $tmp === 'contact')
+		{
+			$page = $tmp;
+		}
+		else
+		{
+			$page = 'home';
+		}
 
 		//query the database and store the results
 		//in the $myData variable
 		$sql = "SELECT * 
 		FROM site_content
-		WHERE page_name='home'";
+		WHERE page_name='$page'";
 
 		$myData = $db->query($sql);
 
@@ -50,13 +62,13 @@ if($_SESSION['login'] == 'y')
 
 		$sql1 = "UPDATE site_content
 		SET content='$user_intro'
-		WHERE page_name='home'
+		WHERE page_name='$page'
 		AND section_name='intro'";
 		$myData = $db->query($sql1);
 
 		$sql2 = "UPDATE site_content
 		SET content='$user_blurb'
-		WHERE page_name='home'
+		WHERE page_name='$page'
 		AND section_name='blurb'";
 		$myData = $db->query($sql2);
 
@@ -78,12 +90,12 @@ else
 	<form action="<?php echo $SERVER_['PHP_SELF'];?>" method="post">
     	<fieldset>
             <legend>Update Site Content</legend>
-            
-            <select id="page" name="page">
-                <option value="6">select a page</option>
-                <option value="">option 1</option>
-                <option value="">option 2</option>
-                <option value="">option 3</option>
+            <input type="hidden" id="tmp" name="tmp" value="<?php echo $page ?>" />
+            <select id="page" name="page" onchange="set_page(this)">
+                <option value="">select a page</option>
+                <option value="home" id="home">home</option>
+                <option value="about" id="about">about</option>
+                <option value="contact" id="contact">contact</option>
             </select>
             
             <label for="intro">Intro</label>
@@ -97,5 +109,33 @@ else
             <input type="submit" name="submitted" />
         </fieldset>
     </form>
+    
+    <script>
+    	window.onload =  function(){
+			document.getElementById(<?php echo $page; ?>).selected = 'selected';	
+		}
+		
+		function set_page(obj)
+		{
+			window.location = './update.php?p=' + obj.value;		
+		}
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
